@@ -6,8 +6,8 @@
     "packages/*"
   ],
   "scripts": {
-    "v": "lerna version --conventional-commits --no-push --yes",
-    "r": "git cz && yarn v",
+    "create-changelog": "npx lerna version --conventional-commits --no-push --yes",
+    "cz": "git cz && pnpm create-changelog",
     "prepare": "husky install"
   },
   "devDependencies": {
