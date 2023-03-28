@@ -5,10 +5,13 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:react-hooks/recommended"
+    "plugin:react/recommended",
+    // If you are using the new JSX transform from React 17, extend react/jsx-runtime in your eslint config
+    "plugin:react/jsx-runtime",
+    // react-hooks
+    "plugin:react-hooks/recommended",
+    "prettier"
   ],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
