@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { Button, Card, Select } from 'antd';
+import { useEffect, useState } from 'react';
 
-export interface IProps {
-  name?: string;
-}
-
-const Index = ({ name }: IProps) => {
-  const [s] = useState(name);
+const Index = () => {
+  const [name] = useState('');
 
   useEffect(() => {
-    console.log(s);
-  }, [s]);
-  return <div>123</div>;
+    // console.log(name);
+  }, [name]);
+  return (
+    <Card>
+      <Select options={[{ label: 'a', value: 'a' }]}></Select>
+      <Button>a</Button>
+    </Card>
+  );
 };
 
 export default Index;

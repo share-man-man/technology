@@ -17,6 +17,7 @@
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
     "lerna": "^6.0.3",
     "lint-staged": "^13.2.0",
@@ -29,9 +30,9 @@
     }
   },
   "lint-staged": {
-    "**/*.tsx": [
-      "prettier --write --ignore-unknown",
-      "eslint --max-warnings 0"
+    "**/*": [
+      "prettier --check --ignore-unknown",
+      "eslint --ignore-path .prettierignore"
     ]
   }
 }
