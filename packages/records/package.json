@@ -13,5 +13,8 @@
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
     "serve": "vitepress serve docs"
+  },
+  "dependencies": {
+    "@algolia/client-search": "^4.16.0"
   }
 }
