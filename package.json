@@ -28,8 +28,7 @@
   },
   "lint-staged": {
     "**/*": [
-      "prettier --check --ignore-unknown",
-      "eslint --ignore-path .prettierignore"
+      "prettier --check --ignore-unknown"
     ]
   }
 }

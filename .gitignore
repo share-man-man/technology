@@ -106,3 +106,5 @@ dist
 
 # vitepress
 packages/records/docs/.vitepress
+
+.DS_Store

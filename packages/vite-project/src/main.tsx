@@ -1,5 +1,6 @@
+import './index.less';
 import { createRoot } from 'react-dom/client';
-import App from './App';
 
-const root = createRoot(document.getElementById('root') as HTMLElement);
-root.render(<App />);
+import Router from './router';
+
+createRoot(document.getElementById('root') as HTMLElement).render(<Router />);
