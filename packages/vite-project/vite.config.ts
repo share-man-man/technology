@@ -1,10 +1,11 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: { host: "0.0.0.0" },
+  base: 'vite-project',
+  server: { host: '0.0.0.0' },
   plugins: [react()],
   css: {
     preprocessorOptions: {
@@ -17,11 +18,11 @@ export default defineConfig({
     alias: [
       {
         find: /^~/,
-        replacement: "",
+        replacement: '',
       },
       {
-        find: "@",
-        replacement: path.resolve(__dirname, "./src"),
+        find: '@',
+        replacement: path.resolve(__dirname, './src'),
       },
     ],
   },

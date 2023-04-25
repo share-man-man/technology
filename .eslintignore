@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+pnpm-lock.yaml
+pnpm-workspace.yaml
+CHANGELOG.md
+Dockerfile
+*.sh
+nginx.conf

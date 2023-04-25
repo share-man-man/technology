@@ -5,7 +5,8 @@
   "scripts": {
     "create-changelog": "npx lerna version --conventional-commits --no-push --yes",
     "cz": "git cz && pnpm create-changelog",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "bd": "sh publish/build-docker.sh"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.57.0",
@@ -28,7 +29,8 @@
   },
   "lint-staged": {
     "**/*": [
-      "prettier --check --ignore-unknown"
+      "prettier --check --ignore-unknown",
+      "eslint --ignore-path"
     ]
   }
 }

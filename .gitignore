@@ -105,6 +105,6 @@ dist
 .tern-port
 
 # vitepress
-packages/records/docs/.vitepress
+packages/records/docs/.vitepress/cache
 
 .DS_Store
