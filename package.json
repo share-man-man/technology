@@ -30,7 +30,7 @@
   "lint-staged": {
     "**/*": [
       "prettier --check --ignore-unknown",
-      "eslint --ignore-path"
+      "eslint"
     ]
   }
 }
