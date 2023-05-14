@@ -8,9 +8,14 @@
 
 ## windows 开发环境
 
+### 安装 linux
+
+> 主流开发选择 unix、类 uniux 系统，导致 powershell 生态不好，兼容性不佳，很多工具不能在 windows 上运行
+
 1.  安装虚拟环境：应用\启用或关闭 windows 功能
     - 勾选 适用于 Linux 的子系统、虚拟机平台
 2.  微软商店安装 ubuntu、windows terminal
+    > ubuntu 是 linux 的发行版本
 3.  在 powershell 里将 ubuntu 升级为 wsl2
 
     ```shell
