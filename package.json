@@ -6,7 +6,8 @@
     "build:docker": "sh publish/build-docker.sh",
     "create-changelog": "npx lerna version --conventional-commits --no-push --yes",
     "cz": "git cz && pnpm create-changelog",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "records:build": "npx lerna run --scope records build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.57.0",

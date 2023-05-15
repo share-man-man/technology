@@ -7,3 +7,4 @@ CHANGELOG.md
 Dockerfile
 *.sh
 nginx.conf
+/docs
