@@ -1,1 +1,0 @@
-import{_ as s,c as n,o as a,N as l}from"./chunks/framework.31511502.js";const A=JSON.parse('{"title":"操作系统-windows","description":"","frontmatter":{},"headers":[],"relativePath":"system/windows.md"}'),p={name:"system/windows.md"},e=l("",10),o=[e];function t(c,r,i,u,y,C){return a(),n("div",null,o)}const d=s(p,[["render",t]]);export{A as __pageData,d as default};

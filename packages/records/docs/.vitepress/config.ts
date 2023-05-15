@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-  base: '/records',
+  base: '/technology',
   title: '首页',
   description: 'GrainFull的技术笔记',
   lang: 'zh-CN',
