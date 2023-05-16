@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress';
 
 export default defineConfig({
   base: '/technology',
-  title: '首页',
+  title: '小满的技术文档',
   description: 'GrainFull的技术笔记',
   lang: 'zh-CN',
   themeConfig: {
@@ -10,8 +10,8 @@ export default defineConfig({
       '/prepare/': [
         {
           text: '准备工作',
-          link: '/prepare/',
           items: [
+            { text: '描述', link: '/prepare/' },
             {
               text: '科学上网',
               link: '/prepare/vpn',
@@ -21,7 +21,7 @@ export default defineConfig({
               link: '/prepare/tools',
             },
             {
-              text: '环境准备',
+              text: '环境搭建',
               link: '/prepare/windows',
               items: [
                 {
@@ -34,13 +34,17 @@ export default defineConfig({
                 },
               ],
             },
+            {
+              text: '常用配置',
+              link: '/prepare/public-config',
+            },
           ],
         },
       ],
     },
     nav: [
       {
-        text: '开始',
+        text: '准备工作',
         link: '/prepare/',
       },
       {

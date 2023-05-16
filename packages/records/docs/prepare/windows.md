@@ -15,12 +15,12 @@
    ```
 
 4. clash 开启允许局域网
-5. 开启防火墙
+5. 防火墙允许 wsl 用 clash 代理
 
    1. 控制面板\系统和安全\Windows Defender 防火墙\允许的应用
    2. 勾选 clash
 
-6. 打开 ubuntu，设置密码
+6. 用 windows terminal 打开 ubuntu，根据提示，设置密码
 7. 切换管理员
 
    ```shell
@@ -104,7 +104,9 @@
           deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
         ```
 
-## 更新、安装工具
+## 安装命令行工具
+
+> 因为我 mac 上就用的 zsh，这里统一一下，到时候切换 mac 开发比较丝滑
 
 1. 更新 apt
 
@@ -145,26 +147,6 @@
    }
 
    alias pn=pnpm
-   ```
-
-5. 安装 pnpm、yarn、nvm、git 等工具
-
-   > 很多都需要梯子
-
-## 常用配置
-
-1. 避免 git 每次 commit 都要输入用户名、密码
-
-   ```bash
-   git config credential.helper store
-   ```
-
-2. 安装 git-cz 提交工具
-
-   ```shell
-   # 所有项目默认使用angular的模板，不同公司要求模板不同，可在项目根目录单独设置 .czrc
-   npm install -g commitizen cz-conventional-changelog --registry=https://registry.npmmirror.com
-   echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
    ```
 
 ## 常见问题

@@ -1,6 +1,6 @@
-# 工欲善其事，必先利其器
+# 描述
 
-> prepare tools,perfect goals
+> prepare tools,perfect goals(工欲善其事，必先利其器)
 
 ## 目的
 
@@ -11,5 +11,5 @@
 ## 步骤
 
 1. [科学上网](./vpn)
-2. 开发工具
+2. [开发工具](./tools)
 3. 搭建环境([mac](./mac),[windows](./windows))
