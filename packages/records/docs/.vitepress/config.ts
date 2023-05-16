@@ -6,19 +6,42 @@ export default defineConfig({
   description: 'GrainFull的技术笔记',
   lang: 'zh-CN',
   themeConfig: {
+    sidebar: {
+      '/prepare/': [
+        {
+          text: '准备工作',
+          link: '/prepare/',
+          items: [
+            {
+              text: '科学上网',
+              link: '/prepare/vpn',
+            },
+            {
+              text: '开发工具',
+              link: '/prepare/tools',
+            },
+            {
+              text: '环境准备',
+              link: '/prepare/windows',
+              items: [
+                {
+                  text: 'windows篇',
+                  link: '/prepare/windows',
+                },
+                {
+                  text: 'mac篇',
+                  link: '/prepare/mac',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
     nav: [
       {
-        text: '准备工作',
-        items: [
-          {
-            text: 'mac',
-            link: '/prepare/mac/index',
-          },
-          {
-            text: 'windows',
-            link: '/prepare/windows/index',
-          },
-        ],
+        text: '开始',
+        link: '/prepare/',
       },
       {
         text: '前端',
