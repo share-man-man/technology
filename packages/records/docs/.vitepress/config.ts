@@ -11,7 +11,7 @@ export default defineConfig({
         {
           text: '准备工作',
           items: [
-            { text: '描述', link: '/prepare/' },
+            { text: '前言', link: '/prepare/' },
             {
               text: '科学上网',
               link: '/prepare/vpn',

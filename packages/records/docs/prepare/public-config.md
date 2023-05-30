@@ -18,13 +18,13 @@ nvm install 16
 
 - 避免 git 每次 commit 都要输入用户名、密码
 
-  ```bash
+  ```sh
   git config credential.helper store
   ```
 
 - 规范 commit 信息
 
-  ```shell
+  ```sh
   # 所有项目默认使用angular的模板，不同公司要求模板不同，可在项目根目录单独设置 .czrc
   npm install -g commitizen cz-conventional-changelog --registry=https://registry.npmmirror.com
   echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
