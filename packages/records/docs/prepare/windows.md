@@ -32,7 +32,7 @@
    1. 备份原始源文件
 
       ```shell
-      sudo cp /etc/apt/sources list /etc/apt/sources.list.bak
+      sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
       ```
 
    2. 更改文件权限使其可编辑

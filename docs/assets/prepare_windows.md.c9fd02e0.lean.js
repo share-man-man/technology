@@ -1,1 +1,0 @@
-import{_ as s,c as n,o as a,N as l}from"./chunks/framework.eb0d3d4b.js";const d=JSON.parse('{"title":"windows 篇","description":"","frontmatter":{},"headers":[],"relativePath":"prepare/windows.md"}'),e={name:"prepare/windows.md"},p=l("",10),o=[p];function t(r,c,i,u,C,y){return a(),n("div",null,o)}const D=s(e,[["render",t]]);export{d as __pageData,D as default};
