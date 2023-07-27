@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2023-07-27)
+
+
+### Features
+
+* **mac.md:** 新增mac配置 ([a62a112](https://github.com/shuxiaoman/technology/commit/a62a112b3cd43bc564e8fdac46bf597fc02e1b03))
+
+
+
+
+
 ## 1.0.6 (2023-06-08)
 
 **Note:** Version bump only for package records
