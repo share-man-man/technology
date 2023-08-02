@@ -7,11 +7,19 @@ const router = createBrowserRouter(
       path: '/',
       element: (
         <div>
+          <Link to="/schema">schema</Link>
+          <br />
           <Link to="/about">about</Link>
           <br />
           <Link to="/app">app</Link>
         </div>
       ),
+    },
+    {
+      path: 'schema',
+      lazy: async () => ({
+        Component: (await import('./pages/Schema')).default,
+      }),
     },
     {
       path: 'about',
