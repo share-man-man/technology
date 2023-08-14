@@ -1,75 +1,76 @@
+/**
+ * any类型逃生舱
+ */
+export type AnyType = ReturnType<typeof JSON.parse>;
+
+/**
+ * JSON节点类型
+ */
 export type JSONValue =
+  // 字符串节点
   | string
+  // 数字节点
   | number
+  // 布尔节点
   | boolean
+  // 对象节点
   | JSONObject
+  // 数组节点
   | JSONArray
+  // 空节点
   | null;
 
 /**
- * 变量类型
+ * 对象节点
  */
-export type JSExpressionType = {
+type JSONObject = {
+  [k: string]: JSONValue;
+};
+
+/**
+ * 数组节点
+ */
+type JSONArray = Array<JSONValue>;
+
+/**
+ * 对象节点->表达式节点
+ */
+type JSExpressionType = {
   type: 'JSExpression';
   value: string;
 };
 /**
- * 函数类型
+ * 对象节点->函数节点
  */
-export type JSFunctionType = {
+type JSFunctionType = {
   type: 'JSFunction';
   params: string[];
-  value: string;
+  // 返回schema节点的函数
+  value?: string;
+  children?: SchemaObj | SchemaObj[];
 };
-
-export type JSSlotType = {
-  id: string;
-  type: 'JSSlot';
-  params: string[];
-  value: JSONArray;
-};
-
-export type JSONObject =
-  | {
-      [k: string]: JSONValue;
-    }
-  | JSFunctionType
-  | JSSlotType;
-
-type JSONArray = Array<JSONValue>;
-
-/**
- * schema组件的参数类型
- */
-export type SchemaObjPropsType = Record<string, JSONValue>;
-
 /**
  * schema组件的类型
  */
-export interface SchemaObj {
+export interface SchemaObj extends JSONObject {
   id: string;
   componentName: string;
   packageName: string;
-  props: SchemaObjPropsType;
-  children: SchemaType[];
+  props: Record<string, JSONValue | JSExpressionType | JSFunctionType>;
+  children: SchemaObj | SchemaObj[];
 }
-/**
- * schema的类型，包含schema组件、数字、字符串等基础类型
- */
-export type SchemaType =
-  | number
-  | string
-  | boolean
-  | null
-  | Partial<SchemaObj>
-  | SchemaType[];
 
 export interface ComponentListItem {
   packageName: string;
-  packageLib: Record<string, any>;
+  packageLib: Record<string, AnyType>;
 }
 
-export const isBasicType = (obj: any): boolean => {
+/**
+ * 是否为基础节点
+ * @param obj
+ * @returns
+ */
+export const isBasicType = (obj: AnyType): boolean => {
   return [
     '[object String]',
     '[object Number]',
@@ -78,19 +79,27 @@ export const isBasicType = (obj: any): boolean => {
     null,
   ].includes(Object.prototype.toString.call(obj));
 };
-
-export const isSchemaObj = (obj: any): obj is SchemaObj => {
+/**
+ * 是否为schema节点
+ * @param obj
+ * @returns
+ */
+export const isSchemaObj = (obj: AnyType): obj is SchemaObj => {
   return !!obj?.componentName && !!obj?.packageName;
 };
-
-export const isSlot = (obj: any): obj is JSSlotType => {
-  return obj.type === 'JSSlot';
-};
-
-export const isExpression = (obj: any): obj is JSExpressionType => {
+/**
+ * 是否为表达式节点
+ * @param obj
+ * @returns
+ */
+export const isExpression = (obj: AnyType): obj is JSExpressionType => {
   return obj.type === 'JSExpression';
 };
-
-export const isFunction = (obj: any): obj is JSFunctionType => {
+/**
+ * 是否为函数节点
+ * @param obj
+ * @returns
+ */
+export const isFunction = (obj: AnyType): obj is JSFunctionType => {
   return obj.type === 'JSFunction';
 };

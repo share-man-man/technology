@@ -66,7 +66,7 @@ const testObj: Partial<SchemaObj> = {
       },
       {
         title: '标题',
-        dataIndex: 'title',
+        dataIndex: 'labels',
         copyable: true,
         ellipsis: true,
         tip: '标题过长会自动收缩',
@@ -120,10 +120,9 @@ const testObj: Partial<SchemaObj> = {
           value: `return config.defaultRender(_)`,
         },
         render: {
-          id: id(),
-          type: 'JSSlot',
+          type: 'JSFunction',
           params: ['text', 'record'],
-          value: [
+          children: [
             {
               id: id(),
               packageName: 'antd',
@@ -131,20 +130,16 @@ const testObj: Partial<SchemaObj> = {
               props: {
                 title: {
                   type: 'JSExpression',
-                  value: 'this.params?.text',
+                  value: 'this.scope?.text',
                 },
               },
               children: [
-                {
-                  type: 'JSExpression',
-                  value: 'this.params?.record?.name',
-                },
                 {
                   id: id(),
                   packageName: 'antd',
                   componentName: 'Collapse',
                   props: {
-                    defaultActiveKey: ['1'],
+                    defaultActiveKey: ['1', '2', '3'],
                   },
                   children: [
                     {
@@ -155,7 +150,10 @@ const testObj: Partial<SchemaObj> = {
                         key: 1,
                         header: 'This is panel header 1',
                       },
-                      children: ['111'],
+                      children: {
+                        type: 'JSExpression',
+                        value: 'this.scope?.record?.name',
+                      },
                     },
                     {
                       id: id(),
@@ -165,7 +163,7 @@ const testObj: Partial<SchemaObj> = {
                         key: 2,
                         header: 'This is panel header 2',
                       },
-                      children: ['222'],
+                      children: '222',
                     },
                     {
                       id: id(),
@@ -175,12 +173,10 @@ const testObj: Partial<SchemaObj> = {
                         key: 3,
                         header: 'This is panel header 3',
                       },
-                      children: [
-                        {
-                          type: 'JSExpression',
-                          value: 'this.params?.text',
-                        },
-                      ],
+                      children: {
+                        type: 'JSExpression',
+                        value: 'this.scope?.text',
+                      },
                     },
                   ],
                 },
@@ -188,15 +184,6 @@ const testObj: Partial<SchemaObj> = {
             },
           ],
         },
-        // render: (_, record) => (
-        //   <Space>
-        //     {record.labels.map(({ name, color }) => (
-        //       <Tag color={color} key={name}>
-        //         {name}
-        //       </Tag>
-        //     ))}
-        //   </Space>
-        // ),
       },
     ],
     dataSource: [
@@ -204,6 +191,7 @@ const testObj: Partial<SchemaObj> = {
         key: 123,
         labels: '测试标签231312',
         name: '小小',
+        state: 'open',
       },
     ],
   },
@@ -218,6 +206,6 @@ injectPackage({
   packageName: 'antd',
 });
 
-const mydom = reactRender([testObj]);
+const mydom = reactRender(JSON.parse(JSON.stringify(testObj)), {});
 
 export default mydom;

@@ -2,13 +2,13 @@ import { FunctionComponent, ReactNode, createElement } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 import {
+  AnyType,
   ComponentListItem,
   JSONValue,
   isBasicType,
   isExpression,
   isFunction,
   isSchemaObj,
-  isSlot,
 } from './type';
 
 const ComponentList: ComponentListItem[] = [];
@@ -26,8 +26,8 @@ export const injectPackage = (pack: ComponentListItem) => {
 
 export const reactRender = (
   obj: JSONValue,
-  ext?: {
-    params?: Record<string, any>;
+  ext: {
+    scope?: Record<string, AnyType>;
   }
 ): ReactNode => {
   // 基础节点，直接返回
@@ -38,13 +38,13 @@ export const reactRender = (
   if (Array.isArray(obj)) {
     return obj.map((o) => reactRender(o, ext)) as (ReactNode | ReactNode)[];
   }
-  // 保证obj是对象
+  // 排除null、undefined类型
   if (!(obj instanceof Object)) {
     return obj;
   }
-  // 组件节点
+  // schema节点，从ComponentList里匹配组件
   if (isSchemaObj(obj)) {
-    // 匹配组件
+    // 处理组件的子组件，比如antd的：Collapse.Panel、Typography.Text等
     const compPath = obj.componentName.split('.');
     let matchComp = ComponentList.find(
       (c) => c.packageName === obj.packageName
@@ -52,53 +52,69 @@ export const reactRender = (
     compPath.forEach((name) => {
       matchComp = (matchComp || {})[name];
     });
-
     if (!matchComp) {
+      // TODO 匹配不到组件，应该上抛错误
       return createElement(
         'div',
         { key: uuidv4(), style: { color: 'red' } },
         `找不到组件:${obj.packageName}-${obj.componentName}`
       );
     }
-    //   TODO props里的属性有可能是组件，需要深度解析
-
+    // 组件参数，参数可能深层嵌套schema节点
     const props = {
       key: obj.id,
       ...Object.fromEntries(
-        Object.keys(obj.props).map((k) => [k, reactRender(obj.props[k], ext)])
+        Object.keys(obj.props || {}).map((k) => [
+          k,
+          reactRender(obj.props[k], ext),
+        ])
       ),
     };
-    const children = (obj.children || []).map((c) =>
-      reactRender(c, ext)
-    ) as ReactNode[];
+    // 解析children，children可能是单一节点，可能是数组节点
+    const children = !Array.isArray(obj.children)
+      ? reactRender(obj.children || null, ext)
+      : ((obj.children || []).map((c) => reactRender(c, ext)) as ReactNode[]);
 
     return createElement(matchComp as FunctionComponent, props, children);
   }
-  // 变量节点
+  // 表达式节点
   if (isExpression(obj)) {
     const func = new Function(`return ${obj?.value}`).bind({
-      params: ext?.params,
+      ...ext,
     });
     return func();
   }
   // 函数节点
   if (isFunction(obj)) {
-    const func = new Function(...(obj?.params || []), obj?.value).bind({});
-    return func;
-  }
-  // 插槽节点
-  if (isSlot(obj)) {
-    return ((...params: any[]) => {
-      const dom = (obj.value || []).map((o) =>
-        reactRender(o, {
+    // 普通函数节点
+    if (!obj?.children) {
+      return new Function(...(obj?.params || []), obj?.value || '').bind({
+        ...ext,
+      });
+    }
+    // 返回schema组件的函数节点
+    return new Function('...params', 'return this.render(params);').bind({
+      render: (params: AnyType[]) => {
+        if (!obj.children) {
+          return;
+        }
+        const funcExt: typeof ext = {
           ...ext,
-          params: Object.fromEntries(
-            obj.params.map((k, index) => [k, params[index]])
-          ),
-        })
-      );
-      return dom;
-    }) as any;
+          // 透传函数的参数到children里，使此函数包裹的组件或表达式可通过this.scope获取
+          scope: {
+            ...ext.scope,
+            ...Object.fromEntries(
+              obj.params.map((k, index) => [k, params[index]])
+            ),
+          },
+        };
+        // 处理children是否为数组或单schema的情况
+        if (Array.isArray(obj.children)) {
+          return obj.children.map((o) => reactRender(o, { ...funcExt }));
+        }
+        return reactRender(obj.children, { ...funcExt });
+      },
+    });
   }
 
   return Object.fromEntries(
