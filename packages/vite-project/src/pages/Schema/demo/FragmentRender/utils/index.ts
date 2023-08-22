@@ -8,6 +8,12 @@ import {
   isSchemaObj,
 } from './type';
 
+/**
+ * 碎片化渲染，每异步加载一个schema节点，调用一次loadSuccess
+ * 优点：可细粒度展示每个组件加载进程
+ * 缺点：多次调用渲染，函数组件会多次重复创建，降低性能
+ * @param param0
+ */
 export const render = <VNodeType>({
   shcemaObj,
   onCreateNode,

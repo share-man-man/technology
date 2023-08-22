@@ -6,29 +6,36 @@ import {
   isExpression,
   isFunction,
   isSchemaObj,
-} from './utils/type';
+} from './type';
 
 /**
- * 碎片化渲染，每异步加载一个schema节点，调用一次loadSuccess
- * 优点：可细粒度展示每个组件加载进程
- * 缺点：多次调用渲染，函数组件会多次重复创建，降低性能
- * @param param0
+ * 生成包-组件的唯一标识
+ * @param obj
+ * @returns
  */
-export const render = <VNodeType,>({
+const getCompId = (obj: SchemaObj): string => {
+  return `${obj.packageName}-${obj.componentName}`;
+};
+
+export const render = async <VNodeType>({
   shcemaObj,
   onCreateNode,
   asyncLoadComp,
-  onRender,
 }: {
   shcemaObj: SchemaObj;
   onCreateNode: (comp: AnyType, props: AnyType, children: AnyType) => VNodeType;
-  asyncLoadComp: (
-    obj: SchemaObj,
-    loadSuccess: (component: AnyType) => void
-  ) => AnyType;
-  onRender: (dom: VNodeType) => void;
+  asyncLoadComp: (obj: SchemaObj) => Promise<AnyType>;
 }) => {
+  // 组件集合
   const compMap = new Map<string, AnyType>();
+  // 需要异步加载的组件
+  const asyncLoadList: { id: string; load: Promise<void> }[] = [];
+  /**
+   * 递归解析schema
+   * @param obj
+   * @param ext
+   * @returns
+   */
   const deepRecursionParse = (
     obj: JSONValue,
     ext: {
@@ -50,7 +57,7 @@ export const render = <VNodeType,>({
     if (!(obj instanceof Object)) {
       return obj;
     }
-    // schema节点
+    // schema节点，从ComponentList里匹配组件
     if (isSchemaObj(obj)) {
       // 组件参数，参数可能深层嵌套schema节点
       const props = {
@@ -66,15 +73,8 @@ export const render = <VNodeType,>({
       const children = !Array.isArray(obj.children)
         ? deepRecursionParse(obj.children || null, ext)
         : (obj.children || []).map((c) => deepRecursionParse(c, ext));
-      if (!compMap.get(obj.id)) {
-        const loadingNode = asyncLoadComp(obj, (node) => {
-          compMap.set(obj.id, node);
-          const newDom = deepRecursionParse(shcemaObj, {});
-          onRender(newDom);
-        });
-        compMap.set(obj.id, loadingNode);
-      }
-      return onCreateNode(compMap.get(obj.id), props, children);
+
+      return onCreateNode(compMap.get(getCompId(obj)), props, children);
     }
     // 表达式节点
     if (isExpression(obj)) {
@@ -118,5 +118,38 @@ export const render = <VNodeType,>({
       Object.keys(obj).map((k) => [k, deepRecursionParse(obj[k], ext)])
     );
   };
-  onRender(deepRecursionParse(shcemaObj, {}));
+
+  // 解析schema,异步加载组件
+  const deepRecursionLoad = (obj: JSONValue): JSONValue => {
+    // 数组节点遍历渲染
+    if (Array.isArray(obj)) {
+      return obj.map((o) => deepRecursionLoad(o));
+    }
+    // 排除null、undefined类型
+    if (!(obj instanceof Object)) {
+      return obj;
+    }
+    // schema节点
+    if (isSchemaObj(obj)) {
+      const compId = getCompId(obj);
+      // 多个相同的组件不重复加载
+      if (!asyncLoadList.some((a) => a.id === compId)) {
+        asyncLoadList.push({
+          id: compId,
+          load: asyncLoadComp(obj).then((res) => {
+            compMap.set(compId, res);
+          }),
+        });
+      }
+    }
+
+    return Object.fromEntries(
+      Object.keys(obj).map((k) => [k, deepRecursionLoad(obj[k])])
+    );
+  };
+  deepRecursionLoad(shcemaObj);
+  // 等待所有组件加载完毕
+  await Promise.all(asyncLoadList.map((a) => a.load));
+  // 解析渲染组件
+  return deepRecursionParse(shcemaObj, {});
 };
