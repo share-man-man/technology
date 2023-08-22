@@ -54,16 +54,25 @@ type JSFunctionType = {
  */
 export interface SchemaObj extends JSONObject {
   id: string;
+  /**
+   * 组件名，支持子组件链式调用，比如antd的：Collapse.Panel、Typography.Text等
+   */
   componentName: string;
+  /**
+   * 组件所属包名
+   */
   packageName: string;
+  /**
+   * 组件参数
+   */
   props: Record<string, JSONValue | JSExpressionType | JSFunctionType>;
   children: SchemaObj | SchemaObj[];
 }
 
-export interface ComponentListItem {
-  packageName: string;
-  packageLib: Record<string, AnyType>;
-}
+// export interface ComponentListItem {
+//   packageName: string;
+//   packageLib: Record<string, AnyType>;
+// }
 
 /**
  * 是否为基础节点

@@ -1,16 +1,16 @@
+import 'antd/dist/antd.css';
+
 import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Card, Dropdown, Space, Tag } from 'antd';
+import { Button, Dropdown, Space, Tag } from 'antd';
 import request from 'umi-request';
 
-// import * as Antd from 'antd';
-import { injectPackage, reactRender } from './utils';
+import { useRef } from 'react';
+import { v4 as id } from 'uuid';
 
-import 'antd/dist/antd.css';
-import { createElement, useRef } from 'react';
-
-import test from './test';
+import { SchemaObj } from './demo/FragmentRender/utils/type';
+import ReactRender from './demo/FragmentRender/ReactRender';
 
 type GithubIssueItem = {
   url: string;
@@ -254,12 +254,156 @@ const Index = () => {
 
 // export default Index;
 
-const Test = () => {
-  console.log(11, test);
-  // const t = [createElement(Card, { key: 1, title: '123' })];
-  // console.log(t);
+const testObj: Partial<SchemaObj> = {
+  id: id(),
+  packageName: '@ant-design/pro-components',
+  componentName: 'ProTable',
+  props: {
+    columns: [
+      {
+        dataIndex: 'index',
+        valueType: 'indexBorder',
+        width: 48,
+      },
+      {
+        title: '标题',
+        dataIndex: 'labels',
+        copyable: true,
+        ellipsis: true,
+        tip: '标题过长会自动收缩',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: '此项为必填项',
+            },
+          ],
+        },
+      },
+      {
+        disable: true,
+        title: '状态',
+        dataIndex: 'state',
+        filters: true,
+        onFilter: true,
+        ellipsis: true,
+        valueType: 'select',
+        valueEnum: {
+          all: {
+            text: {
+              type: 'JSExpression',
+              value: `'超长'.repeat(50)`,
+            },
+          },
+          open: {
+            text: '未解决',
+            status: 'Error',
+          },
+          closed: {
+            text: '已解决',
+            status: 'Success',
+            disabled: true,
+          },
+          processing: {
+            text: '解决中',
+            status: 'Processing',
+          },
+        },
+      },
+      {
+        disable: true,
+        title: '标签',
+        dataIndex: 'labels',
+        search: false,
+        renderFormItem: {
+          type: 'JSFunction',
+          params: ['_', 'config'],
+          value: `return config.defaultRender(_)`,
+        },
+        render: {
+          type: 'JSFunction',
+          params: ['text', 'record'],
+          children: [
+            {
+              id: id(),
+              packageName: 'antd',
+              componentName: 'Card',
+              props: {
+                title: {
+                  type: 'JSExpression',
+                  value: 'this.scope?.text',
+                },
+              },
+              children: [
+                {
+                  id: id(),
+                  packageName: 'antd',
+                  componentName: 'Collapse',
+                  props: {
+                    defaultActiveKey: ['1', '2', '3'],
+                  },
+                  children: [
+                    {
+                      id: id(),
+                      packageName: 'antd',
+                      componentName: 'Collapse.Panel',
+                      props: {
+                        key: 1,
+                        header: 'This is panel header 1',
+                      },
+                      children: {
+                        type: 'JSExpression',
+                        value: 'this.scope?.record?.name',
+                      },
+                    },
+                    {
+                      id: id(),
+                      packageName: 'antd',
+                      componentName: 'Collapse.Panel',
+                      props: {
+                        key: 2,
+                        header: 'This is panel header 2',
+                      },
+                      children: '222',
+                    },
+                    {
+                      id: id(),
+                      packageName: 'antd',
+                      componentName: 'Collapse.Panel',
+                      props: {
+                        key: 3,
+                        header: 'This is panel header 3',
+                      },
+                      children: {
+                        type: 'JSExpression',
+                        value: 'this.scope?.text',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
+    dataSource: [
+      {
+        key: 123,
+        labels: '测试标签231312',
+        name: '小小',
+        state: 'open',
+      },
+    ],
+  },
+};
 
-  return <div>{test}</div>;
+const Test = () => {
+  return (
+    <div>
+      <ReactRender schemaStr={JSON.stringify(testObj)} />
+    </div>
+  );
 };
 
 export default Test;
