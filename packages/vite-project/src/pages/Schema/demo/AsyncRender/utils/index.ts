@@ -17,15 +17,32 @@ const getCompId = (obj: SchemaObj): string => {
   return `${obj.packageName}-${obj.componentName}`;
 };
 
+export interface RenderProps<VNodeType> {
+  /**
+   * schema对象
+   */
+  shcemaObj: SchemaObj;
+  /**
+   * 创建节点（虚拟dom）
+   * @param comp 组件渲染函数
+   * @param props 组件参数
+   * @param children 组件children
+   * @returns 节点对象（虚拟dom）
+   */
+  onCreateNode: (comp: AnyType, props: AnyType, children: AnyType) => VNodeType;
+  /**
+   * 异步加载组件
+   * @param obj schema节点对象
+   * @returns 组件渲染函数
+   */
+  asyncLoadComp: (obj: SchemaObj) => Promise<AnyType>;
+}
+
 export const render = async <VNodeType>({
   shcemaObj,
   onCreateNode,
   asyncLoadComp,
-}: {
-  shcemaObj: SchemaObj;
-  onCreateNode: (comp: AnyType, props: AnyType, children: AnyType) => VNodeType;
-  asyncLoadComp: (obj: SchemaObj) => Promise<AnyType>;
-}) => {
+}: RenderProps<VNodeType>) => {
   // 组件集合
   const compMap = new Map<string, AnyType>();
   // 需要异步加载的组件
@@ -43,6 +60,7 @@ export const render = async <VNodeType>({
        * 作用域变量
        */
       scope?: Record<string, AnyType>;
+      context?: Record<string, AnyType>;
     }
   ): VNodeType | JSONValue | AnyType => {
     // 基础节点，直接返回
@@ -61,7 +79,8 @@ export const render = async <VNodeType>({
     if (isSchemaObj(obj)) {
       // 组件参数，参数可能深层嵌套schema节点
       const props = {
-        key: obj?.props?.key || obj.id,
+        // 每个组件都默认有一个key
+        key: obj.id,
         ...Object.fromEntries(
           Object.keys(obj.props || {}).map((k) => [
             k,
