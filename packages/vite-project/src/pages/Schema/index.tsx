@@ -12,6 +12,12 @@ import { v4 as id } from 'uuid';
 import { SchemaObj } from './demo/AsyncRender/utils/type';
 import ReactRender from './demo/AsyncRender/ReactRender';
 
+import VueRender from './demo/AsyncRender/VueRender';
+
+import { createApp, h, onMounted, ref } from 'vue';
+import { useLayoutEffect } from 'react';
+import { render } from './demo/AsyncRender/utils';
+
 // type GithubIssueItem = {
 //   url: string;
 //   id: number;
@@ -28,17 +34,17 @@ import ReactRender from './demo/AsyncRender/ReactRender';
 //   closed_at?: string;
 // };
 
-export const waitTimePromise = async (time = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
+// export const waitTimePromise = async (time = 100) => {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(true);
+//     }, time);
+//   });
+// };
 
-export const waitTime = async (time = 100) => {
-  await waitTimePromise(time);
-};
+// export const waitTime = async (time = 100) => {
+//   await waitTimePromise(time);
+// };
 
 // const Index = () => {
 //   const actionRef = useRef<ActionType>();
@@ -417,32 +423,10 @@ const testObj: Partial<SchemaObj> = {
 };
 
 const Test = () => {
-  return (
-    <div>
-      <ReactRender
-        schemaStr={JSON.stringify(testObj)}
-        // 有些打包器（如vite），默认不能通过import($param)动态加载包名，需要提前写好放到异步函数里去
-        packageList={[
-          {
-            name: 'antd',
-            load: async () => import('antd'),
-          },
-          {
-            name: '@ant-design/pro-components',
-            load: async () => import('@ant-design/pro-components'),
-          },
-          {
-            name: `a${Math.ceil(Math.random() * 100)}`,
-            load: async () => {
-              return {
-                default: '123',
-              };
-            },
-          },
-        ]}
-      />
-    </div>
-  );
+  useLayoutEffect(() => {
+    createApp(VueRender).mount('#vue');
+  }, []);
+  return <div id="vue"></div>;
 };
 
 export default Test;
