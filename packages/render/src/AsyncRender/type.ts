@@ -69,10 +69,36 @@ export interface SchemaObj extends JSONObject {
   children: SchemaObj | SchemaObj[];
 }
 
-// export interface ComponentListItem {
-//   packageName: string;
-//   packageLib: Record<string, AnyType>;
-// }
+// TODO 校验参数、状态、函数名不可重复
+export interface ComponentSchemaObj {
+  // 参数
+  props: {
+    name: string;
+    // TODO 定义参数类型
+    type: '';
+  }[];
+  // 状态
+  states: {
+    name: string;
+    default: AnyType;
+  }[];
+  // 方法
+  methods: {
+    name: string;
+    desc?: string;
+    value: string;
+    effects: string[];
+    otherMethods: string[];
+  }[];
+  // 状态依赖
+  effets: {
+    name: string;
+    dependence: string[];
+    computed: string;
+    desc?: string;
+  }[];
+  schema: SchemaObj;
+}
 
 /**
  * 是否为基础节点

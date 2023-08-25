@@ -66,7 +66,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/vite-project',
+    basename: '/vite-react',
   }
 );
 

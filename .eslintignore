@@ -4,7 +4,13 @@ coverage
 pnpm-lock.yaml
 pnpm-workspace.yaml
 CHANGELOG.md
+/docs
+
 Dockerfile
 *.sh
 nginx.conf
-/docs
+
+**/*.vue
+**/*.svg
+**/*.less
+**/*.css

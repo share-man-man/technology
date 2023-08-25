@@ -107,4 +107,18 @@ dist
 # vitepress
 packages/records/docs/.vitepress/cache
 
+dist-ssr
+
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea
 .DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

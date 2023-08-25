@@ -1,5 +1,5 @@
-import { render } from './utils';
-import { AnyType, SchemaObj } from './utils/type';
+import { render } from 'render/src/AsyncRender/utils';
+import { AnyType, SchemaObj } from 'render/src/AsyncRender/utils/type';
 
 import { h, onMounted, ref, watchEffect } from 'vue';
 
