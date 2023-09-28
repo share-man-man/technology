@@ -12,15 +12,17 @@
     // react-hooks
     "plugin:react-hooks/recommended",
     "plugin:markdown/recommended",
+    "plugin:vue/vue3-recommended",
     "prettier"
   ],
   "overrides": [],
-  "parser": "@typescript-eslint/parser",
+  "parser": "vue-eslint-parser",
   "parserOptions": {
+    "parser": "@typescript-eslint/parser",
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["html", "react", "@typescript-eslint"],
+  "plugins": ["html", "react", "react-refresh", "@typescript-eslint"],
   "rules": {
     "no-console": "warn",
     "no-shadow": "error"

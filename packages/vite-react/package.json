@@ -16,7 +16,6 @@
     "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "render-react": "workspace:*",
     "react-router-dom": "^6.10.0",
     "umi-request": "^1.4.0",
     "uuid": "^9.0.0",

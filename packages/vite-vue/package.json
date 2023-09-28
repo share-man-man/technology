@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "render-vue": "workspace:*",
     "vue": "^3.3.4"
   },
   "devDependencies": {
