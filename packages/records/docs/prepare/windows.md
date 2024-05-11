@@ -104,6 +104,8 @@
           deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
         ```
 
+        > ubuntu 20 实际安装版本为 22，会报错，需要执行命令：`sudo apt-get update`
+
 ## 安装命令行工具
 
 > 因为我 mac 上就用的 zsh，这里统一一下，到时候切换 mac 开发比较丝滑
