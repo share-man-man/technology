@@ -6,6 +6,10 @@ export default defineConfig({
   description: 'GrainFull的技术笔记',
   lang: 'zh-CN',
   themeConfig: {
+    outline: {
+      level: [2, 6],
+      label: '本业导航',
+    },
     search: {
       provider: 'local',
     },
