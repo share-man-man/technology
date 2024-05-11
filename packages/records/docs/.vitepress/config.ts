@@ -6,6 +6,9 @@ export default defineConfig({
   description: 'GrainFull的技术笔记',
   lang: 'zh-CN',
   themeConfig: {
+    search: {
+      provider: 'local',
+    },
     sidebar: {
       '/prepare/': [
         {
@@ -65,29 +68,30 @@ export default defineConfig({
           },
           {
             text: '多包管理monorepo',
-            link: '/',
+            link: '/monorepo',
           },
           {
             text: '打包工具',
-            link: '/',
+            link: '/build-tools',
           },
           {
             text: '持续集成ci',
-            link: '/',
+            link: '/ci',
           },
         ],
       },
       {
         text: '后端',
         items: [
-          { text: 'nodejs', link: '/' },
+          { text: 'nodejs', link: '/nodejs' },
           {
             text: 'java',
-            items: [{ text: 'nodejs', link: '/' }],
+            items: [{ text: 'spring', link: '/spring' }],
           },
         ],
       },
     ],
   },
   outDir: '../../../docs',
+  lastUpdated: true,
 });
