@@ -5,9 +5,10 @@
   "main": "index.js",
   "author": "GrainFull",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
-    "vitepress": "^1.0.0-alpha.29",
-    "vue": "^3.2.45"
+    "vitepress": "^1.1.4",
+    "vue": "^3.4.27"
   },
   "scripts": {
     "dev": "vitepress dev docs",
