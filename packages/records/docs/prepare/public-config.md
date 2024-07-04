@@ -144,3 +144,9 @@ nvm install 16
     ```shell
     git clone git@github.com:usera/proa-ae.git
     ```
+
+11. 已经通过 https 下载的仓库，修改 git 远程仓库地址
+
+    ```shell
+    git remote set-url origin git@github.com:usera/proa-ae.git
+    ```
