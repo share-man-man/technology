@@ -68,6 +68,10 @@ export default defineConfig({
                 text: 'Vue',
                 link: '/frontend/vue/index.md',
               },
+              {
+                text: 'Flutter',
+                link: '/frontend/flutter/install.md',
+              },
             ],
           },
           {
