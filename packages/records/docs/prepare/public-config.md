@@ -3,6 +3,9 @@
 ## 安装常用工具
 
 - [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+  - mac 目前不支持 brew 安装
+  - 使用 nvm 管理 node 后，vscode 的 terminal 会默认使用 18(如果有 18)，[原因](https://liam.page/2023/01/20/different-PATH-env-in-VSCode-macOS/)
+  - 在 vscode debug 调试 node 时，nvm 管理的 node，需要指定版本 runtimeVersion，[原因](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_multi-version-support)
 - [pnpm](https://pnpm.io/zh/)
 - [yarn](https://yarnpkg.com/getting-started/install)
 - [git](https://git-scm.com/downloads)（mac 自带，wsl 需要安装）
