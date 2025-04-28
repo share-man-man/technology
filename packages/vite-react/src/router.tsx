@@ -27,6 +27,10 @@ const router = createBrowserRouter(
             <Link to="/about">about</Link>
             <br />
             <Link to="/app">app</Link>
+            <br />
+            <Link to="/vtable/gannt-default">gannt-default</Link>
+            <br />
+            <Link to="/joda">joda</Link>
           </div>
         </Layout>
       ),
@@ -63,6 +67,37 @@ const router = createBrowserRouter(
           }),
         },
       ],
+    },
+    {
+      path: 'vtable',
+      lazy: async () => ({
+        Component: (await import('./pages/VTable')).default,
+      }),
+      children: [
+        {
+          path: 'gannt-default',
+          lazy: async () => ({
+            Component: (await import('./pages/VTable/Default')).default,
+          }),
+        },
+        {
+          path: 'gannt-day1',
+          lazy: async () => ({
+            Component: (await import('./pages/VTable/Day1')).default,
+          }),
+        },
+      ],
+    },
+
+    {
+      path: 'vtable/table-list',
+      lazy: async () => ({
+        Component: (await import('./pages/VTable/TableList')).default,
+      }),
+    },
+    {
+      path: '/joda',
+      lazy: async () => ({ Component: (await import('./pages/Joda')).default }),
     },
   ],
   {
